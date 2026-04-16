@@ -6,4 +6,6 @@
    - Web App For Game
    - Scoreboard
    - selection for multiple games (ie: tetris)
-   - 
+ - What we don't know yet
+   - How to setup the game board
+   - How to register inputs from a webapp with low latency
