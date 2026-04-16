@@ -52,3 +52,22 @@ Excluded for now: multiplayer, audio, advanced animation, persistent leaderboard
 Chosen by you: shared single-game state for MVP.
 If you approve this plan, I can keep refining it into a task checklist for implementation handoff.
 
+# Prompt 2: (mode: ask)
+how do i "render an empty board" for the game
+
+# Response
+You’re asking for the first concrete step, so I’m going to read your current Snake file and give you a minimal empty-board render pattern that works immediately.
+
+Read gamecode.py
+
+Start with a text-mode board first, then plug that into Flask later.
+Your current file at gamecode.py:1 also has a syntax issue: empty functions must contain at least pass.
+
+Use this minimal version to render an empty board in the terminal:
+
+What this does:
+
+Creates a 2D grid as a list of lists.
+Fills every cell with . to represent empty space.
+Prints each row so you can see the board immediately.
+If you want the Flask version next, the same board list can be passed to a template (or JSON) so the browser renders the exact same state from one central game model.
