@@ -1,0 +1,9 @@
+# Proposal
+ - What: Snake Game
+ - Why: Building our own game sounds fun and engaging, Snake is a simple start to this with controls that would be applicable to most 2D games. The skills we will gain will therefore be widely applicable if we would like to continue developing games.
+ - MVP: Snake Game that runs locally, player can change direction, eat apples, and grow. If they run into themselves or the wall, they die
+ - Stretch Goals: 
+   - Web App For Game
+   - Scoreboard
+   - selection for multiple games (ie: tetris)
+   - 
