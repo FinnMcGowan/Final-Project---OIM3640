@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Welcome to the Game Hub</h1>
+    <p>Choose a game from the menu or click one of the cards below.</p>
+
+    <div class="game-card">
+        <h2>Play Snake</h2>
+        <p>Simple snake board with a live preview.</p>
+        <a class="card-link" href="{{ url_for('snake') }}">Open Snake</a>
+    </div>
+
+    <div class="game-card">
+        <h2>Rubik’s Timer</h2>
+        <p>Timer page for tracking your solve time.</p>
+        <a class="card-link" href="{{ url_for('timer') }}">Open Timer</a>
+    </div>
+
+    <div class="game-card">
+        <h2>Tetris</h2>
+        <p>Coming soon - placeholder page is ready.</p>
+        <a class="card-link" href="{{ url_for('tetris') }}">See Tetris</a>
+    </div>
+{% endblock %}

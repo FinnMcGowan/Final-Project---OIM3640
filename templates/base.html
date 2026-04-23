@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Game Platform</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="hamburger" onclick="toggleSidebar()">☰</div>
+
+<div id="sidebar" class="sidebar">
+    <a href="{{ url_for('index') }}">Home</a>
+    <a href="{{ url_for('snake') }}">Snake</a>
+    <a href="{{ url_for('timer') }}">Rubik’s Timer</a>
+    <a href="{{ url_for('tetris') }}">Tetris (Coming Soon)</a>
+</div>
+
+<div class="content">
+    {% block content %}{% endblock %}
+</div>
+
+<script>
+function toggleSidebar() {
+    const bar = document.getElementById("sidebar");
+    bar.style.left = bar.style.left === "0px" ? "-260px" : "0px";
+}
+</script>
+
+</body>
+</html>

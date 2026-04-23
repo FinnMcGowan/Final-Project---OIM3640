@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Snake</h1>
+    <p>This is the playable game area placeholder for your Snake game. The board is rendered with CSS and Python-backed board state.</p>
+
+    <div class="grid" style="grid-template-columns: repeat({{ width }}, 22px);">
+        {% for row in board %}
+            {% for cell in row %}
+                <div class="grid-cell {% if cell == 'snake' %}snake{% elif cell == 'apple' %}apple{% endif %}"></div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+{% endblock %}

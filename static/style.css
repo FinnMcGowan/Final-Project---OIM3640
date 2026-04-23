@@ -1,0 +1,165 @@
+/* GLOBAL CRT-STYLE THEME */
+body {
+    margin: 0;
+    font-family: "Courier New", monospace;
+    background: #000;
+    color: #00ff66;
+    text-shadow: 0 0 4px #00ff66;
+}
+
+body a {
+    color: #00ff66;
+    text-decoration: none;
+}
+
+body a:hover {
+    text-decoration: underline;
+}
+
+/* HAMBURGER */
+.hamburger {
+    padding: 15px;
+    cursor: pointer;
+    font-size: 28px;
+    color: #00ff66;
+    user-select: none;
+    text-shadow: 0 0 6px #00ff66;
+}
+
+/* SIDEBAR */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -260px;
+    width: 260px;
+    height: 100%;
+    background: #001a00;
+    padding-top: 60px;
+    transition: 0.3s;
+    border-right: 2px solid #00ff66;
+    box-shadow: 0 0 15px #00ff66;
+    z-index: 10;
+}
+
+.sidebar a {
+    display: block;
+    padding: 15px;
+    color: #00ff66;
+    text-decoration: none;
+    font-size: 20px;
+    text-shadow: 0 0 4px #00ff66;
+}
+
+.sidebar a:hover {
+    background: #003300;
+    box-shadow: inset 0 0 10px #00ff66;
+}
+
+/* MAIN CONTENT */
+.content {
+    padding: 20px;
+    margin-left: 0;
+}
+
+.content h1 {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.content p {
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.game-card {
+    border: 2px solid #00ff66;
+    padding: 20px;
+    margin: 20px 0;
+    background: #001100;
+    box-shadow: 0 0 10px #00ff66;
+    cursor: pointer;
+}
+
+.game-card:hover {
+    background: #002200;
+    box-shadow: 0 0 20px #00ff66;
+}
+
+.card-link {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 18px;
+    border: 2px solid #00ff66;
+    color: #00ff66;
+    text-shadow: 0 0 4px #00ff66;
+}
+
+.card-link:hover {
+    background: #003300;
+}
+
+.grid {
+    display: grid;
+    gap: 2px;
+    margin-top: 20px;
+    border: 2px solid #00ff66;
+    box-shadow: 0 0 10px #00ff66;
+    max-width: fit-content;
+}
+
+.grid-cell {
+    width: 22px;
+    height: 22px;
+    background: #002200;
+    box-shadow: inset 0 0 4px #00ff66;
+}
+
+.grid-cell.snake {
+    background: #00ff66;
+    box-shadow: 0 0 10px #00ff66;
+}
+
+.grid-cell.apple {
+    background: #ff0040;
+    box-shadow: 0 0 10px #ff0040;
+}
+
+.timer-display {
+    font-size: 72px;
+    text-align: center;
+    margin-top: 40px;
+    color: #00ff66;
+    text-shadow: 0 0 10px #00ff66;
+}
+
+.timer-controls {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.timer-button {
+    padding: 12px 25px;
+    background: #001a00;
+    border: 2px solid #00ff66;
+    color: #00ff66;
+    font-size: 20px;
+    cursor: pointer;
+    text-shadow: 0 0 6px #00ff66;
+    box-shadow: 0 0 10px #00ff66;
+    margin: 0 10px;
+}
+
+.timer-button:hover {
+    background: #003300;
+    box-shadow: 0 0 15px #00ff66;
+}
+
+@media (max-width: 700px) {
+    .sidebar {
+        width: 220px;
+    }
+
+    .content {
+        padding: 15px;
+    }
+}
