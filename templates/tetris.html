@@ -1,6 +1,115 @@
-{% extends "base.html" %}
+    {% extends "base.html" %}
 
 {% block content %}
     <h1>Tetris</h1>
-    <p>Tetris is coming soon. The front-end structure is ready and will display your game when the Python engine is added.</p>
+    <p>Use Left/Right to move, Up to rotate, Z for counter-rotate, Down for soft drop, Space for hard drop, C to hold, and R to restart.</p>
+
+    <p id="tetris-status">Score: 0</p>
+    <div class="timer-controls">
+        <button id="tetris-restart" class="timer-button" type="button">Restart</button>
+    </div>
+
+    <div id="tetris-board" class="grid" data-initial-width="{{ width }}"></div>
+
+    <script>
+    const tetrisBoard = document.getElementById("tetris-board");
+    const tetrisStatus = document.getElementById("tetris-status");
+    const restartButton = document.getElementById("tetris-restart");
+    const initialWidth = Number(tetrisBoard.dataset.initialWidth || 10);
+    const tickMs = 400;
+
+    const pieceColors = {
+        "block-I": "#00f0f0",
+        "block-O": "#f2f200",
+        "block-T": "#c000f0",
+        "block-S": "#00f000",
+        "block-Z": "#f00000",
+        "block-J": "#0040f0",
+        "block-L": "#f08c00",
+    };
+
+    tetrisBoard.style.gridTemplateColumns = `repeat(${initialWidth}, 22px)`;
+
+    function renderBoard(state) {
+        tetrisBoard.innerHTML = "";
+        tetrisBoard.style.gridTemplateColumns = `repeat(${state.width}, 22px)`;
+
+        for (const row of state.board) {
+            for (const cell of row) {
+                const cellElement = document.createElement("div");
+                cellElement.className = "grid-cell";
+
+                if (cell !== "empty") {
+                    const color = pieceColors[cell] || "#00ff66";
+                    cellElement.style.background = color;
+                    cellElement.style.boxShadow = `0 0 10px ${color}`;
+                }
+
+                tetrisBoard.appendChild(cellElement);
+            }
+        }
+
+        if (state.game_over) {
+            tetrisStatus.textContent = `Game Over. Score: ${state.score}. Press R to restart.`;
+        } else {
+            tetrisStatus.textContent = `Score: ${state.score}`;
+        }
+    }
+
+    async function getState() {
+        const response = await fetch("/api/tetris/state");
+        return await response.json();
+    }
+
+    async function sendDirection(direction) {
+        const response = await fetch("/api/tetris/direction", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ direction }),
+        });
+        const state = await response.json();
+        renderBoard(state);
+    }
+
+    async function tick() {
+        const response = await fetch("/api/tetris/tick", { method: "POST" });
+        const state = await response.json();
+        renderBoard(state);
+    }
+
+    async function reset() {
+        const response = await fetch("/api/tetris/reset", { method: "POST" });
+        const state = await response.json();
+        renderBoard(state);
+    }
+
+    document.addEventListener("keydown", (event) => {
+        const key = event.key.toLowerCase();
+        const keyToDirection = {
+            arrowleft: "left",
+            a: "left",
+            arrowright: "right",
+            d: "right",
+            arrowdown: "soft_drop",
+            s: "soft_drop",
+            arrowup: "rotate_cw",
+            w: "rotate_cw",
+            z: "rotate_ccw",
+            " ": "hard_drop",
+            c: "hold",
+        };
+
+        if (keyToDirection[key]) {
+            event.preventDefault();
+            sendDirection(keyToDirection[key]);
+        } else if (key === "r") {
+            reset();
+        }
+    });
+
+    restartButton.addEventListener("click", reset);
+
+    getState().then(renderBoard);
+    setInterval(tick, tickMs);
+    </script>
 {% endblock %}

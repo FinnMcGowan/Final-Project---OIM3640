@@ -2,13 +2,99 @@
 
 {% block content %}
     <h1>Snake</h1>
-    <p>This is the playable game area placeholder for your Snake game. The board is rendered with CSS and Python-backed board state.</p>
+    <p>Use Arrow Keys or WASD to move. Press R or use the restart button.</p>
 
-    <div class="grid" style="grid-template-columns: repeat({{ width }}, 22px);">
-        {% for row in board %}
-            {% for cell in row %}
-                <div class="grid-cell {% if cell == 'snake' %}snake{% elif cell == 'apple' %}apple{% endif %}"></div>
-            {% endfor %}
-        {% endfor %}
+    <p id="snake-status">Score: 0</p>
+    <div class="timer-controls">
+        <button id="snake-restart" class="timer-button" type="button">Restart</button>
     </div>
+
+    <div id="snake-board" class="grid" data-initial-width="{{ width }}"></div>
+
+    <script>
+    const snakeBoard = document.getElementById("snake-board");
+    const snakeStatus = document.getElementById("snake-status");
+    const restartButton = document.getElementById("snake-restart");
+    const initialWidth = Number(snakeBoard.dataset.initialWidth || 16);
+    const tickMs = 140;
+
+    snakeBoard.style.gridTemplateColumns = `repeat(${initialWidth}, 22px)`;
+
+    function renderBoard(state) {
+        snakeBoard.innerHTML = "";
+        snakeBoard.style.gridTemplateColumns = `repeat(${state.width}, 22px)`;
+
+        for (const row of state.board) {
+            for (const cell of row) {
+                const cellElement = document.createElement("div");
+                cellElement.className = "grid-cell";
+
+                if (cell === "snake") {
+                    cellElement.classList.add("snake");
+                } else if (cell === "apple") {
+                    cellElement.classList.add("apple");
+                }
+
+                snakeBoard.appendChild(cellElement);
+            }
+        }
+
+        if (state.game_over) {
+            snakeStatus.textContent = `Game Over. Score: ${state.score}. Press R to restart.`;
+        } else {
+            snakeStatus.textContent = `Score: ${state.score}`;
+        }
+    }
+
+    async function getState() {
+        const response = await fetch("/api/snake/state");
+        return await response.json();
+    }
+
+    async function sendDirection(direction) {
+        await fetch("/api/snake/direction", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ direction }),
+        });
+    }
+
+    async function tick() {
+        const response = await fetch("/api/snake/tick", { method: "POST" });
+        const state = await response.json();
+        renderBoard(state);
+    }
+
+    async function reset() {
+        const response = await fetch("/api/snake/reset", { method: "POST" });
+        const state = await response.json();
+        renderBoard(state);
+    }
+
+    document.addEventListener("keydown", (event) => {
+        const key = event.key.toLowerCase();
+        const keyToDirection = {
+            arrowup: "up",
+            arrowdown: "down",
+            arrowleft: "left",
+            arrowright: "right",
+            w: "up",
+            s: "down",
+            a: "left",
+            d: "right",
+        };
+
+        if (keyToDirection[key]) {
+            event.preventDefault();
+            sendDirection(keyToDirection[key]);
+        } else if (key === "r") {
+            reset();
+        }
+    });
+
+    restartButton.addEventListener("click", reset);
+
+    getState().then(renderBoard);
+    setInterval(tick, tickMs);
+    </script>
 {% endblock %}
