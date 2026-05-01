@@ -71,3 +71,66 @@ Creates a 2D grid as a list of lists.
 Fills every cell with . to represent empty space.
 Prints each row so you can see the board immediately.
 If you want the Flask version next, the same board list can be passed to a template (or JSON) so the browser renders the exact same state from one central game model.
+
+
+# Prompt 3: 
+in this file, plan out the basic functions needed to create the tetris game
+
+response: 
+
+Plan: Basic Tetris Function Blueprint
+Build a minimal playable Tetris backend first: board, active piece, movement, rotation, gravity tick, line clearing, scoring, and game-over.
+
+Steps
+
+Define piece constants/templates (I,O,T,S,Z,J,L) and board defaults (10x20).
+Add create_empty_board(width, height).
+Add spawn_piece() (random piece at top-center).
+Add get_piece_cells(piece) (occupied (x,y) by rotation).
+Add is_valid_position(board, piece, dx=0, dy=0, rotation=None).
+Add move_piece(piece, dx, dy) (apply only if valid).
+Add rotate_piece(piece, clockwise=True) (apply only if valid).
+Add lock_piece(board, piece) (merge active piece into board).
+Add clear_full_lines(board) (clear + return count).
+Add tick():
+try move down
+if blocked: lock piece, clear lines, update score, spawn next
+if spawn blocked: set game_over=True
+Add set_direction(action) for input: left, right, rotate_cw, soft_drop, hard_drop.
+Add render_board(board, active_piece) (overlay active piece for display).
+Add state() returning board, width, height, score, game_over.
+Add reset() to restart all state.
+
+# prompt 4
+ - integrate the tetris backend into the flask app & in app.py
+
+response: 
+out breaking existing behavior.
+
+I found your current Flask app pattern and will now wire TetrisBackend into app.py with matching endpoints (state, direction, tick, reset) plus allowed action validation.
+
+Edited
+app.py
+I’ve finished wiring the Flask routes; next I’ll run a quick error check on app.py and gamecode_v1.py to confirm there are no syntax/import issues.
+
+Integrated Tetris into the Flask app in app.py.
+
+What I added
+Imported backend:
+app.py:4
+Created backend instance:
+app.py:8
+Updated tetris page route to pass board state into template:
+app.py:45
+Added Tetris API endpoints (same pattern as Snake):
+GET /api/tetris/state at app.py:50
+POST /api/tetris/direction at app.py:55
+POST /api/tetris/tick at app.py:66
+POST /api/tetris/reset at app.py:72
+Added input validation for direction/action:
+Allowed actions: left, right, soft_drop, hard_drop, rotate_cw, rotate_ccw
+Validation logic in app.py:58
+Validation
+No errors in app.py
+No errors in gamecode_v1.py
+If you want, next step is I can wire up tetris.html with JS controls and grid rendering against these endpoints so it’s playable in-browser.
