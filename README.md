@@ -1,5 +1,5 @@
 # Final Project - OIM3640
-Team members: Finn, Kalib
+Team members: Finn McGowan, Kalib Yang
 
 # Overview
 We are building a multi‑game web application using Python and Flask.  
@@ -8,7 +8,7 @@ The backend handles game logic (starting with Snake), and the frontend provides 
 # Current Games
 - Snake (engine by Finn, UI by Kalib)
 - Rubik’s Timer (UI by Kalib)
-- Tetris Prototype (planned)
+- Tetris (engine by Finn, UI by Kalib)
 
 # Tech Stack
 - Python (game engines + Flask API)
